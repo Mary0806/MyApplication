@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  db:
+    container_name: app-db
+    image: postgres:13
+    environment:
+      POSTGRES_PASSWORD: "application"
+      POSTGRES_USER: "application"
+      POSTGRES_DB: "application"
+    ports:
+      - "1632:5432"
