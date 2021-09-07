@@ -1,23 +1,26 @@
 package com.example.myapplication.domain;
 
 import javax.persistence.*;
+import org.hibernate.validator.constraints.Length;
+import javax.validation.constraints.NotBlank;
 @Entity
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotBlank(message = "Please fill the message")
+    @Length(max = 2048, message = "Message too long (more than 2kB)")
     private String text;
-    private String tag;
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
 
     public Message() {}
-    public Message(String text, String tag, User user) {
+    public Message(String text, User user) {
         this.author = user;
         this.text = text;
-        this.tag = tag;
     }
 public String getAuthorName(){
         return author != null ? author.getUsername() : "<none>";
@@ -37,13 +40,7 @@ public String getAuthorName(){
         this.id = id;
     }
 
-    public String getTag() {
-        return tag;
-    }
 
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
     public User getAuthor() {
         return author;
     }
